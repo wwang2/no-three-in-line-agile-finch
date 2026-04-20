@@ -1,0 +1,23 @@
+{
+  "rounds": 1,
+  "invoked_via": "Agent(subagent_type=figure-critic)",
+  "verdict": "ACCEPT",
+  "overall_comment": "Both required artifacts present and publication-ready: results.png is a clean 2x3 multi-panel that passes the 10-second skim test (metric -20 clearly annotated via dashed reference, bar labels, and panel titles) and narrative.png is a legible 4-step deterministic-construction schematic. Only cosmetic MINORs worth tightening next pass.",
+  "figures": [
+    {
+      "path": "orbits/02-deterministic-closed-form/figures/results.png",
+      "issues": [
+        {"severity": "MINOR", "issue": "Panel labels (d)(e)(f) embedded in titles but missing bold top-left style-guide label.", "fix": "Add ax.text(-0.12, 1.05, '(d)', ...) etc."},
+        {"severity": "MINOR", "issue": "Palette uses default matplotlib blue/orange rather than style-guide seaborn-muted hex set.", "fix": "Define COLORS dict with style.md palette and reuse."},
+        {"severity": "MINOR", "issue": "Panel (b) inline legend slightly crowds seed-1 bars.", "fix": "Move legend outside axis."}
+      ]
+    },
+    {
+      "path": "orbits/02-deterministic-closed-form/figures/narrative.png",
+      "issues": [
+        {"severity": "MINOR", "issue": "Panel (a) shows 1D partition but uses full y-axis ticked 0.0..0.9, looks odd.", "fix": "Hide yticks or relabel as 'pair id'."},
+        {"severity": "MINOR", "issue": "Panel titles use embedded '(a) Step 1: ...' prefix instead of separate bold labels at (-0.12, 1.05).", "fix": "Move letters to ax.text calls; keep 'Step N:' as plain title."}
+      ]
+    }
+  ]
+}

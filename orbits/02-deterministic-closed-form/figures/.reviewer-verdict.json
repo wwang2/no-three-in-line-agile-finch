@@ -1,0 +1,50 @@
+{
+  "reviewer": "orbit-reviewer",
+  "orbit": "02-deterministic-closed-form",
+  "code_quality": {
+    "status": "clean",
+    "findings": [
+      {"tag": "CODE NOTE", "text": "Approach numbering in constructor.py comments (approach 2=quad, 3=hyperbola, 1=doubly-symmetric) is inverted vs log.md table (1/2/3). Run order is correct — cosmetic only."},
+      {"tag": "CODE NOTE", "text": "FLAMMENKAMP_N10 hardcoded fallback never reached; harmless but invites scrutiny."}
+    ]
+  },
+  "significance": {
+    "verified_metric": -20.0,
+    "delta_baseline_abs": -10.0,
+    "delta_baseline_rel_pct": -100.0,
+    "delta_best_abs": 0.0,
+    "delta_best_rel_pct": 0.0,
+    "vs_threshold": "above",
+    "vs_2sigma": "above",
+    "assessment": "Significant",
+    "suspicious_improvement": false
+  },
+  "reproducibility": {"status": "clean", "findings": []},
+  "figures": {
+    "status": "clean",
+    "findings": [
+      {"tag": "FIGURE ISSUE", "path": "orbits/02-deterministic-closed-form/figures/narrative.png", "text": "Panel (a) 1D partition lacks an explicit axis label clarifying 'column indices 0-9 partitioned into 5 color-coded pairs'.", "fix": "Add a subtitle or axis label on panel (a)."},
+      {"tag": "FIGURE ISSUE", "path": "orbits/02-deterministic-closed-form/figures/results.png", "text": "Bottom row panels (d)(e)(f) not explicitly sharex/sharey.", "fix": "Explicitly set sharex/sharey when creating subplots."}
+    ]
+  },
+  "prose_quality": {
+    "score": "OK",
+    "leads_with_result": true,
+    "length_appropriate": true,
+    "before_after_comparison": true,
+    "conclusion_sentence": true,
+    "glossary_coverage_ok": false,
+    "word_count": 927,
+    "findings": [
+      {"severity": "MINOR", "issue": "Unexpanded 'QR' abbreviation in Before/After section.", "fix": "Expand as 'quadratic-residue (QR)' on first use.", "tag": "PROSE ISSUE"},
+      {"severity": "MINOR", "issue": "927 words is at the top end of the 400-800 target band for positive results.", "fix": "Trim ~100 words by referencing construction_proof.md for the full derivation.", "tag": "PROSE ISSUE"}
+    ]
+  },
+  "quality_hints": {
+    "findings": [
+      {"tag": "QUALITY NOTE", "text": "research/references/registry.yaml doesn't exist — references documented inline, functional but campaign-level gap."},
+      {"tag": "QUALITY NOTE", "text": "FLAMMENKAMP_N10 '4-fold symmetry' comment appears incorrect; since it's never reached, doesn't affect output."}
+    ]
+  },
+  "synopsis": "Orbit 02 delivers a fully deterministic, search-free 20-point construction exactly at the campaign target (-20.0 on seeds 1,2,3). No random calls; constructor reproducibly generates committed POINTS. Primary value is reproducibility (no CPython RNG dependency), not metric improvement."
+}

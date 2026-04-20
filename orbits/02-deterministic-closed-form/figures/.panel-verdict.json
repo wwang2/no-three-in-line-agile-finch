@@ -1,0 +1,44 @@
+{
+  "panelist": "replica-panel",
+  "orbit": "02-deterministic-closed-form",
+  "replicas_reviewed": ["orbit/02-deterministic-closed-form", "orbit/02-deterministic-closed-form.r1"],
+  "ranking": [
+    {
+      "replica": "orbit/02-deterministic-closed-form.r1",
+      "rank": 1,
+      "defensibility_score": 9.0,
+      "axes": {"claim_code": 10, "metric_honesty": 10, "reproducibility": 10, "figure_honesty": 9, "novelty": 9},
+      "strengths": [
+        "C4 symmetry claim verified against committed POINTS",
+        "build_deterministic() self-tests cache vs fresh-derivation equality",
+        "no random.* anywhere — grep-clean",
+        "triangulates with two additional symmetric families (C2, Klein-4)",
+        "C4 is strictly stronger than primary's C2"
+      ],
+      "concerns": ["results.png panel (c) has a minor bar-label mismatch for baseline search-space size"]
+    },
+    {
+      "replica": "orbit/02-deterministic-closed-form",
+      "rank": 2,
+      "defensibility_score": 8.5,
+      "axes": {"claim_code": 9, "metric_honesty": 10, "reproducibility": 10, "figure_honesty": 9, "novelty": 8},
+      "strengths": [
+        "C2 symmetry verified; 2-per-row and 2-per-column",
+        "constructor.py reproducible; matches committed POINTS",
+        "honest negative results — quad-curve and hyperbola sweeps coded and return None",
+        "construction_proof.md enumerates all mirror pairs explicitly"
+      ],
+      "concerns": [
+        "FLAMMENKAMP_N10 fallback never reached but invites 'why is this here?' scrutiny",
+        "log line 50's '113,400 configs' is upper-bound, not traversed count"
+      ]
+    }
+  ],
+  "consensus_winner": "orbit/02-deterministic-closed-form.r1",
+  "winner_reason": "r1's C4 symmetry is strictly stronger than primary's C2, its build_deterministic() is pure with inline cache-vs-derivation self-test, and it triangulates via two independent families (C2, Klein-4) — more robust 'search-free optimum' claim.",
+  "cross_replica_inconsistencies": [
+    "primary and r1 POINTS share only 2 of 20 points — structurally distinct by design (different symmetry groups).",
+    "both independently corroborate that Erdős 2N at N=10 is reachable without RNG."
+  ],
+  "overall_verdict": "DIVERGENT"
+}
