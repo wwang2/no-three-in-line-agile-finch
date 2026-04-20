@@ -1,0 +1,53 @@
+# research/config.yaml — single file for all campaign config
+# Per-session overrides via RE_* env vars (e.g. RE_PARALLEL_AGENTS=2)
+
+# Plugin provenance — set by /init, updated by /sync
+plugin_version: ""
+plugin_source: ""
+
+metric:
+  name: "neg_point_count"
+  direction: minimize
+  target: -20.0
+  min_relative_improvement: 0.05
+  search_seeds_required: 3
+  aggregation: median
+
+baselines:
+  trivial_diagonal: -10.0   # main diagonal has exactly 10 points, all collinear → invalid = 0; placeholder
+
+eval:
+  timeout: 60
+  seeds: 3
+
+compute:
+  backend: local              # pure combinatorics — no GPU needed
+  gpu: null
+  cpu: 4
+  memory: 4096
+  timeout: 600
+
+execution:
+  parallel_agents: 2          # two cross-validation replicas per orbit (user-requested)
+  parallel_orbits: 1          # serial orbits; each extends the prior best
+  budget: null
+  max_orbits: 4               # hard cap from user prompt
+  milestone_interval: 2
+  design_iterations: 1
+  brainstorm_debate_rounds: 1
+
+phases:
+  problem_refinement:
+    parallel_agents: 1
+    enabled: false            # problem is pre-specified — no refinement needed
+  eval_construction:
+    parallel_agents: 1
+    design_iterations: 1      # evaluator is pre-built and frozen
+
+agents:
+  orbit-agent: { model: opus, runtime: claude-code }
+  campaign-reviewer: { model: opus, runtime: claude-code }
+  orbit-reviewer: { model: sonnet, runtime: claude-code }
+  brainstorm-panel: { model: opus, runtime: claude-code }
+  debate-swarm: { model: sonnet, runtime: claude-code }
+  problem-refiner: { model: opus, runtime: claude-code }
