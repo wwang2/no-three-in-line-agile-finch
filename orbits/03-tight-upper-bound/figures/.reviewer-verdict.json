@@ -1,0 +1,53 @@
+{
+  "reviewer": "orbit-reviewer",
+  "orbit": "03-tight-upper-bound",
+  "code_quality": {
+    "status": "has_issues",
+    "findings": [
+      {"tag": "CODE NOTE", "text": "upper_bound_certificate.json uses 'verified': true instead of a 'status' field. Downstream tooling expecting 'status=PROVEN_TIGHT' will not find it."},
+      {"tag": "CODE NOTE", "text": "Pigeonhole argument in bnb_upper_bound.py is correctly implemented. Early-exit guard (target > row_cap * N) fires before tree traversal — branches_explored=0 at target=21."},
+      {"tag": "CODE NOTE", "text": "solution.py POINTS is byte-identical to parent orbit/02-deterministic-closed-form.r1. No silent mutation; C4-invariance and no-3-collinear assertions pass."},
+      {"tag": "CODE NOTE", "text": "Certificate runtime numbers match committed log.md values (1.14e-05s, 2.13s, 1.1M branches)."}
+    ]
+  },
+  "significance": {
+    "verified_metric": -20.0,
+    "delta_baseline_abs": -20.0,
+    "delta_baseline_rel_pct": null,
+    "delta_best_abs": 0.0,
+    "delta_best_rel_pct": 0.0,
+    "vs_threshold": "below",
+    "vs_2sigma": "below",
+    "assessment": "Noise",
+    "suspicious_improvement": false
+  },
+  "reproducibility": {"status": "clean", "findings": []},
+  "figures": {
+    "status": "has_issues",
+    "findings": [
+      {"tag": "FIGURE ISSUE", "path": "orbits/03-tight-upper-bound/figures/results.png", "text": "Panel (b) log-scale cannot represent 0 branches for target=21; bar appears at y=10^-1, label '0' clarifies but framing is misleading.", "fix": "Linear scale, broken axis, or symlog."},
+      {"tag": "FIGURE ISSUE", "path": "orbits/03-tight-upper-bound/figures/narrative.png", "text": "Annotation 'y=9' conflates row index with Cartesian y-coordinate.", "fix": "Use 'row 9' or relabel axis 'y (row)'."}
+    ]
+  },
+  "prose_quality": {
+    "score": "OK",
+    "leads_with_result": true,
+    "length_appropriate": true,
+    "before_after_comparison": true,
+    "conclusion_sentence": true,
+    "glossary_coverage_ok": true,
+    "word_count": 1185,
+    "findings": [
+      {"severity": "MINOR", "issue": "1185 words above style.md 500-word soft limit; justified by proof content but not annotated.", "fix": "Add one-sentence length justification at the top.", "tag": "PROSE ISSUE"}
+    ]
+  },
+  "quality_hints": {
+    "findings": [
+      {"tag": "QUALITY NOTE", "text": "Certificate lacks top-level 'status' field. Consider adding 'status': 'PROVEN_TIGHT' for machine-readability."},
+      {"tag": "QUALITY NOTE", "text": "No research/references/registry.yaml — references live inline in log.md. Campaign-level gap."},
+      {"tag": "QUALITY NOTE", "text": "Prior Art & Novelty section is exemplary — clear, honest."},
+      {"tag": "QUALITY NOTE", "text": "Significance 'Noise' reflects delta_metric=0 vs parent by design; scientific value is the proof certificate, not the metric."}
+    ]
+  },
+  "synopsis": "Orbit 03 is a well-executed consolidation orbit proving 20 is the tight upper bound for n=10 via textbook row-pigeonhole. B&B driver verifiably returns 0 branches at target=21; POINTS byte-identical to parent; proof mathematically sound. Two minor figure issues: log-scale can't render 0 branches; narrative.png uses 'y=9' where 'row 9' would be clearer."
+}

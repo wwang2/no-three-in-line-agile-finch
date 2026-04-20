@@ -1,0 +1,25 @@
+{
+  "rounds": 1,
+  "invoked_via": "Agent(subagent_type=figure-critic)",
+  "verdict": "ACCEPT",
+  "overall_comment": "Both figures are publishable: results.png is a well-structured 2x2 with labeled panels and the tight -20 story readable in under 10s; narrative.png clearly visualizes the pigeonhole argument (21 points in 10 rows forces 3 collinear on y=9). Minor polish notes only.",
+  "figures": [
+    {
+      "path": "orbits/03-tight-upper-bound/figures/narrative.png",
+      "issues": [
+        {"severity": "MINOR", "issue": "Callout arrow anchors to only one of three collinear points.", "fix": "Drop the arrow and place the label mid-segment."},
+        {"severity": "MINOR", "issue": "Two-line title mixes narrative with arithmetic on equal footing.", "fix": "Split into suptitle + subtitle."},
+        {"severity": "MINOR", "issue": "Metric value (-20) not surfaced on the figure.", "fix": "Add a one-line caption."}
+      ]
+    },
+    {
+      "path": "orbits/03-tight-upper-bound/figures/results.png",
+      "issues": [
+        {"severity": "MINOR", "issue": "Panel (a) log-scale y-axis cannot faithfully render 0 branches.", "fix": "Switch to symlog with linthresh=1 or use a sentinel."},
+        {"severity": "MINOR", "issue": "Same log-scale issue in panel (b) for 0.01 ms / 0 branches.", "fix": "Symlog or annotate at x-tick."},
+        {"severity": "MINOR", "issue": "Panel (c) has inverted row axis without orientation hint.", "fix": "Add 'row (top = 0)' ylabel or subtitle."},
+        {"severity": "MINOR", "issue": "Suptitle slightly small relative to figure.", "fix": "fontsize=15, y=1.02."}
+      ]
+    }
+  ]
+}

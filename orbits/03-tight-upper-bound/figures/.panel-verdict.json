@@ -1,0 +1,47 @@
+{
+  "panelist": "replica-panel",
+  "orbit": "03-tight-upper-bound",
+  "replicas_reviewed": ["orbit/03-tight-upper-bound", "orbit/03-tight-upper-bound.r1"],
+  "ranking": [
+    {
+      "replica": "orbit/03-tight-upper-bound",
+      "rank": 1,
+      "defensibility_score": 9.0,
+      "axes": {"claim_code": 10, "metric_honesty": 10, "reproducibility": 9, "figure_honesty": 9, "novelty": 7},
+      "strengths": [
+        "pigeonhole statement in code = pigeonhole statement in proof; log.md numbers are exactly code-faithful (1,103,883 branches / 2.13s at target=20; 11 microseconds at target=21)",
+        "runs a REAL (non-trivial) B&B at target=20 with 1.1M branches — mechanically corroborates reachability, not just the bound",
+        "parent_check re-validates POINTS with integer cross-product on all 1140 triples",
+        "certificate schema is flat, unambiguous, and well-typed"
+      ],
+      "concerns": [
+        "only row axis is exercised; no independent column or LP framing",
+        "pigeonhole inequality is the sole mathematical lever"
+      ]
+    },
+    {
+      "replica": "orbit/03-tight-upper-bound.r1",
+      "rank": 2,
+      "defensibility_score": 7.0,
+      "axes": {"claim_code": 7, "metric_honesty": 10, "reproducibility": 9, "figure_honesty": 9, "novelty": 8},
+      "strengths": [
+        "four-route structure (row + column pigeonhole + LP relaxation + row+col B&B) triangulates the claim",
+        "LP analytical argument sound: primal x=2/n feasible, attains 2N",
+        "certificate reports row_counts and col_counts exposing double-axis saturation",
+        "status PROVEN_TIGHT is conjunction-gated"
+      ],
+      "concerns": [
+        "r1's 'B&B' at target=21 is a pre-recursion short-circuit, not a branch-bound prune — log prose slightly overstates",
+        "four 'independent' routes all reduce to the same 2N inequality — presentational rather than mathematical orthogonality",
+        "no real B&B at target=20 to mechanically confirm reachability (relies on imported parent witness)"
+      ]
+    }
+  ],
+  "consensus_winner": "orbit/03-tight-upper-bound",
+  "winner_reason": "Primary's claim-code fidelity is tighter (code does exactly what log.md says, to the last microsecond) and its target=20 B&B with 1.1M branches provides mechanical evidence of reachability alongside the target=21 bound proof.",
+  "cross_replica_inconsistencies": [
+    "both commit byte-exact parent's 20-point C4-invariant POINTS",
+    "both report target=21 branches_explored=0 with PROVEN_TIGHT — consistent conclusion"
+  ],
+  "overall_verdict": "CONSISTENT"
+}
