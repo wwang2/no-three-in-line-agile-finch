@@ -1,0 +1,37 @@
+{
+  "N": 10,
+  "bnb_target_20_sanity": {
+    "branches_explored": 1103883,
+    "first_solution_size": 20,
+    "row_cap": 2,
+    "runtime_seconds": 2.1328409999841824,
+    "solutions_found": 1,
+    "target": 20
+  },
+  "bnb_target_21": {
+    "bound_proven": true,
+    "bound_prunes": 1,
+    "branches_explored": 0,
+    "collinearity_prunes": 0,
+    "placements": 0,
+    "proof_note": "pigeonhole prune at depth 0: target=21 exceeds 2 * 10 = 20, so no configuration with at most 2 points per row can reach 21",
+    "row_cap": 2,
+    "runtime_seconds": 1.1415977496653795e-05,
+    "solutions_found": 0,
+    "target": 21
+  },
+  "claim": "no 21-point no-three-in-line subset of the 10x10 grid exists",
+  "parent_check": {
+    "collinear_triple": null,
+    "no_three_collinear": true,
+    "points_count": 20
+  },
+  "pigeonhole_statement": "with 21 points distributed over 10 rows, some row contains at least 3 points by the pigeonhole principle (ceil(21/10) = 3); those 3 points are collinear on the horizontal line y = row.",
+  "proof_method": "horizontal-pigeonhole + exhaustive branch-and-bound",
+  "references": [
+    "Dudeney, H. E. (1917). Amusements in Mathematics, problem 317.",
+    "Erd\u0151s, P. (1951). Problem on a nxn lattice. In unsolved problems.",
+    "Flammenkamp, A. (1992, 1998). No-three-in-line problem records."
+  ],
+  "verified": true
+}
