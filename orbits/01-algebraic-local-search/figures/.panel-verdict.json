@@ -1,0 +1,50 @@
+{
+  "panelist": "replica-panel",
+  "orbit": "01-algebraic-local-search",
+  "replicas_reviewed": ["orbit/01-algebraic-local-search", "orbit/01-algebraic-local-search.r1"],
+  "ranking": [
+    {
+      "replica": "orbit/01-algebraic-local-search.r1",
+      "rank": 1,
+      "defensibility_score": 8.5,
+      "axes": {"claim_code": 10, "metric_honesty": 10, "reproducibility": 9, "figure_honesty": 9, "novelty": 7},
+      "strengths": [
+        "log.md seed-retention claim matches committed POINTS exactly (verified by hand)",
+        "determinism claim 'restart 0 = 18, restart 4 = 19' reproduced live with seed=20260420",
+        "prime selection rationale (p=11 vs p=13) is explicit, correct, and visualized",
+        "single self-contained solution.py with no-collinear-triple asserts; pinned RNG seed",
+        "honest novelty disclosure",
+        "POINTS validated: 20 unique, 2-per-row, 2-per-column, 0 collinear triples"
+      ],
+      "concerns": [
+        "no behavior.gif or trace.csv — slightly thinner artifact set than primary",
+        "end-to-end reproducibility of 300+ restarts claimed but not re-run"
+      ]
+    },
+    {
+      "replica": "orbit/01-algebraic-local-search",
+      "rank": 2,
+      "defensibility_score": 7.0,
+      "axes": {"claim_code": 7, "metric_honesty": 9, "reproducibility": 9, "figure_honesty": 8, "novelty": 8},
+      "strengths": [
+        "richer artifact set: generator (376 lines), per-point sources file, trace.csv, behavior.gif",
+        "POINTS valid: 20 unique, 2-per-row, 2-per-column, 0 collinear triples",
+        "results.png has 4 diagnostic panels",
+        "narrative.png shows all 190 pairwise lines",
+        "two parameterized QR curves — broader construction space than axis-swap"
+      ],
+      "concerns": [
+        "log.md source-label counts (7/1/8/4) disagree with solution_sources.py (6/1/8/5)",
+        "'plateaus at 16 without swap' tied to count (4) that disagrees with 5",
+        "figure (c) color-coded counts must match solution_sources.py (not log.md prose)"
+      ]
+    }
+  ],
+  "consensus_winner": "orbit/01-algebraic-local-search.r1",
+  "winner_reason": "r1's claims (seed retention count, restart-number milestones, p=11 vs p=13 rationale) are exactly verifiable and were confirmed live; primary's log.md source-label counts (7/1/8/4) disagree with its own solution_sources.py (6/1/8/5).",
+  "cross_replica_inconsistencies": [
+    "Both solutions are valid 20-point configurations with 2-per-row, 2-per-column layout. Direct overlap is 2/20; max overlap under any of 8 grid symmetries is 6/20 — structurally distinct.",
+    "Primary uses two free QR curves with (a,b,c) parameterization; r1 uses a fixed QR curve y=x^2 mod 11 plus axis-swap. Neither matches canonical Flammenkamp tabulations (no literature plagiarism)."
+  ],
+  "overall_verdict": "CONSISTENT"
+}

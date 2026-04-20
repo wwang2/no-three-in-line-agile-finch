@@ -1,0 +1,54 @@
+{
+  "reviewer": "orbit-reviewer",
+  "orbit": "01-algebraic-local-search",
+  "code_quality": {
+    "status": "has_issues",
+    "findings": [
+      {"tag": "CODE ISSUE", "text": "log.md states 'QR-curve seed #1 (blue): 7 points' and 'swap-inserted (red): 4 points', but solution_sources.py shows qr1=6 and swap=5. Per-source counts are off by one in opposite directions, suggesting the log was drafted against an earlier run."},
+      {"tag": "CODE ISSUE", "text": "log.md claims '~2/3 of restarts plateau at 18 and ~1/3 at 19', but trace.csv for restarts 0-7 shows 2 at 18 (25%) and 6 at 19 (75%) — the stated fractions are inverted."},
+      {"tag": "CODE ISSUE", "text": "log.md says 'without swap-inserted group the construction plateaus at 16', but source-label counts give non-swap = 6+1+8 = 15."},
+      {"tag": "CODE NOTE", "text": "greedy_extend_all_orders(n_tries=64) is defined but never called. Dead code."},
+      {"tag": "CODE NOTE", "text": "affine_transform() defined but never called. Dead code."},
+      {"tag": "CODE NOTE", "text": "The evaluator doesn't use its --seed argument; the run table showing near-zero variance across seeds is trivially expected and not meaningful."}
+    ]
+  },
+  "significance": {
+    "verified_metric": -20.0,
+    "delta_baseline_abs": -10.0,
+    "delta_baseline_rel_pct": 100.0,
+    "delta_best_abs": -20.0,
+    "delta_best_rel_pct": null,
+    "vs_threshold": "above",
+    "vs_2sigma": "above",
+    "assessment": "Significant",
+    "suspicious_improvement": true
+  },
+  "reproducibility": {
+    "status": "has_issues",
+    "findings": [
+      {"tag": "REPRODUCIBILITY", "text": "log documents run as '--n-restarts 30 --inner-iters 1500', but code defaults are n_restarts=500, inner_iters=2500; trace.csv has only 9 restarts. Exact flags used to produce committed trace.csv are not pinned."},
+      {"tag": "REPRODUCIBILITY", "text": "Top-level RNG seed is keyed on restart index i; reproducibility across Python versions is not explicitly pinned."}
+    ]
+  },
+  "figures": {"status": "has_issues", "findings": []},
+  "prose_quality": {
+    "score": "OK",
+    "leads_with_result": true,
+    "length_appropriate": true,
+    "before_after_comparison": true,
+    "conclusion_sentence": true,
+    "glossary_coverage_ok": false,
+    "word_count": 537,
+    "findings": [
+      {"severity": "MINOR", "issue": "Undefined 'QR' abbreviation on first use.", "fix": "Expand as 'quadratic-residue (QR)' on first use or add a Glossary.", "tag": "PROSE ISSUE"},
+      {"severity": "MINOR", "issue": "Numerical claims in log.md (7/1/8/4 source labels, 2/3 plateau) inconsistent with solution_sources.py (6/1/8/5) and trace.csv (25/75).", "fix": "Update prose to match the committed artifacts exactly.", "tag": "PROSE ISSUE"}
+    ]
+  },
+  "quality_hints": {
+    "findings": [
+      {"tag": "QUALITY NOTE", "text": "100% relative improvement over the trivial_diagonal baseline (-10.0) triggers the suspicious flag; but the trivial_diagonal baseline is itself invalid (collinear diagonal scores 0, not -10). The realistic floor is ~-15 (naive greedy); the 33% improvement from -15 to -20 is plausible."},
+      {"tag": "QUALITY NOTE", "text": "POINTS were independently verified: 20 unique, 2 per row, 2 per column, 0 collinear triples. No plagiarism — the committed configuration does not match the canonical Flammenkamp tabulations."}
+    ]
+  },
+  "synopsis": "Orbit 01-algebraic-local-search correctly hits the -20 target with an independently verified valid construction. Three numerical claims in log.md are inconsistent with the committed trace.csv and solution_sources.py by small amounts — documentation inaccuracies, not integrity issues."
+}

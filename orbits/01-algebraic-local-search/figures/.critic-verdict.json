@@ -1,0 +1,17 @@
+{
+  "rounds": 2,
+  "invoked_via": "Agent(subagent_type=figure-critic)",
+  "verdict": "ACCEPT",
+  "overall_comment": "Round-1 MINOR fixes landed cleanly on results.png (panel-b bars now read '20 points') and behavior.gif (every frame annotates final METRIC=-20); narrative.png carry-over polish items remain MINOR and do not block publishing.",
+  "figures": [
+    {"path": "orbits/01-algebraic-local-search/figures/results.png", "issues": []},
+    {"path": "orbits/01-algebraic-local-search/figures/behavior.gif", "issues": []},
+    {
+      "path": "orbits/01-algebraic-local-search/figures/narrative.png",
+      "issues": [
+        {"severity": "MINOR", "issue": "Right-panel title long; crowds right edge.", "fix": "Shorten or break into two lines."},
+        {"severity": "MINOR", "issue": "Panel (b) missing top-left '(b)' label.", "fix": "Add (b) label via ax.text transform."}
+      ]
+    }
+  ]
+}
