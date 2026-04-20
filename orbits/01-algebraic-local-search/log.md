@@ -7,7 +7,7 @@ metric: -20.0
 
 # Research Notes
 
-**Hypothesis:** Seed the 10x10 grid with a quadratic-residue curve
+**Hypothesis:** Seed the 10x10 grid with a quadratic-residue (QR) curve
 {(x, x^2 mod 11)}, augment with a second algebraic curve, then hill-climb
 with single-point removal + greedy re-extension to reach the known optimum
 of 20 points. **Measured:** metric = -20.0 on all three seeds (evaluator
@@ -57,10 +57,20 @@ Pipeline:
 - `solution_generator.py` is deterministic given the restart seed; the
   committed `solution.py` is the first 20-point configuration the
   generator found (restart 8).
+- Top-level determinism is keyed on the `MASTER_SEED = 0` constant in
+  `solution_generator.py`; per-restart RNG is
+  `random.Random(MASTER_SEED + i)` for restart `i`. Reproducibility
+  across Python versions depends on CPython's `random.Random`
+  (Mersenne Twister) implementation — the committed `solution.py`
+  and `trace.csv` were produced under CPython 3.
 
 ### Convergence trace
 
-Running `python3 solution_generator.py --n-restarts 30 --inner-iters 1500`:
+The committed `trace.csv` was produced by running
+`python3 solution_generator.py` with the code defaults
+(`--n-restarts 500 --inner-iters 2500`); the run exited early at
+restart 8 when the 20-point target was reached, so `trace.csv`
+contains only the first 9 restart-groups:
 
 ```
 [restart 0] new best = 18 points (t=9.8s)
@@ -69,10 +79,11 @@ Running `python3 solution_generator.py --n-restarts 30 --inner-iters 1500`:
 [restart 8] target 20 reached — stopping
 ```
 
-Single-swap hill climb alone plateaus at 18 in ~2/3 of restarts and at
-19 in ~1/3. The jump to 20 is rare (about 1 in 10 restarts on this
-search schedule) and requires the double-swap stage to escape the
-"19-point basin".
+Reading the 8 pre-success restart-end rows in `trace.csv`, single-
+plus-double-swap hill-climb plateaus at 19 in 6 of 8 restarts (75%)
+and at 18 in 2 of 8 (25%). The jump to 20 is rare (one success in
+the first 9 restarts on this schedule) and requires the double-swap
+stage to escape the "19-point basin".
 
 ## Results
 
@@ -102,19 +113,20 @@ the same value — this is expected and documented in
 ### Committed configuration
 
 20 points, two per row and two per column (verified by hand), with
-source labels:
+source labels (counts taken directly from `solution_sources.py`):
 
-- **QR-curve seed #1** (blue): 7 points from a parabola mod 11.
+- **QR-curve seed #1** (blue): 6 points from a parabola mod 11.
 - **QR-curve seed #2** (orange): 1 additional point from a second
   parabola that was compatible with the running set.
 - **greedy extension** (green): 8 points added by the greedy stage.
-- **swap-inserted** (red): 4 points that only fit after the
+- **swap-inserted** (red): 5 points that only fit after the
   single-swap stage removed an earlier point.
 
 The `swap-inserted` group (red) is the critical piece — without it the
-construction plateaus at 16. That the hill-climb can promote four
-points through a swap-and-re-extend cycle is the whole reason this
-orbit reaches 20 rather than 16.
+construction plateaus at 15 (= 6 + 1 + 8, the combined QR-seed +
+greedy contributions). That the hill-climb can promote five points
+through a swap-and-re-extend cycle is the whole reason this orbit
+reaches 20 rather than 15.
 
 ## Figures
 
@@ -174,3 +186,22 @@ at raising the count, since 20 is the Erdős-Szekeres target for N=10.
   randomized restarts.
 - Metric: -20.000 (target reached at restart 8 / seed 8).
 - Next: exit — target met.
+
+### Iteration 3 (round-2 polish — no search changes)
+- What I tried: addressed reviewer findings on documentation honesty
+  and code hygiene. Corrected per-source counts (qr1=6, qr2=1,
+  greedy=8, swap=5 — taken directly from `solution_sources.py`) and
+  the "without swap" floor (15 rather than 16). Corrected the
+  plateau-frequency claim to match `trace.csv` exactly (6/8 = 75%
+  at 19, 2/8 = 25% at 18). Recorded the actual run command
+  (`--n-restarts 500 --inner-iters 2500` with early exit at restart
+  8) that produced `trace.csv`. Deleted dead functions
+  `greedy_extend_all_orders` and `affine_transform` from
+  `solution_generator.py`. Pinned `MASTER_SEED = 0` for
+  restart-index keying and noted CPython dependence. Simplified
+  `results.png` panel (b) bar annotation to "20 points" and added a
+  "final METRIC = -20" annotation to every `behavior.gif` frame
+  (including the poster frame).
+- Metric: -20.000 (unchanged — `solution.py` was not modified).
+- Next: exit — target met, documentation reconciled with committed
+  artifacts.

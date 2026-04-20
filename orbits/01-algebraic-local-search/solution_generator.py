@@ -30,6 +30,9 @@ from pathlib import Path
 
 N = 10  # grid size (locked by the benchmark)
 P_DEFAULT = 11  # prime near N used for the QR curve seed
+MASTER_SEED = 0  # top-level seed; per-restart RNG is random.Random(MASTER_SEED + i).
+#                  Note: reproducibility across Python versions depends on
+#                  CPython's random.Random implementation (Mersenne Twister).
 
 
 # --------------------------- collinearity primitives ---------------------------
@@ -102,14 +105,6 @@ def qr_curve(a=1, b=0, c=0, p=P_DEFAULT, N=N):
     return out
 
 
-def affine_transform(points, scale_r, scale_c, shift_r, shift_c, N=N):
-    """Apply (r, c) -> ((scale_r*r + shift_r) % N, (scale_c*c + shift_c) % N)."""
-    return [
-        ((scale_r * r + shift_r) % N, (scale_c * c + shift_c) % N)
-        for (r, c) in points
-    ]
-
-
 def seed_from_two_qr_curves(a1=1, b1=0, c1=0,
                              a2=1, b2=0, c2=0,
                              p=P_DEFAULT, N=N):
@@ -139,16 +134,6 @@ def greedy_extend(points, N=N, rng=None):
             rng.shuffle(cand)
         # add first candidate that's still valid (they all are at this point)
         points.append(cand[0])
-
-
-def greedy_extend_all_orders(points, N=N, rng=None, n_tries=64):
-    """Try n_tries random extensions, return the longest."""
-    best = points
-    for _ in range(n_tries):
-        trial = greedy_extend(list(points), N, rng)
-        if len(trial) > len(best):
-            best = trial
-    return best
 
 
 def try_swap_expand(points, N=N, rng=None, max_iters=2000):
@@ -313,7 +298,7 @@ def main():
     trace = Trace()
     for i in range(args.n_restarts):
         pts, src = searched_restart(
-            seed=i,
+            seed=MASTER_SEED + i,
             p=args.p,
             N=N,
             inner_iters=args.inner_iters,

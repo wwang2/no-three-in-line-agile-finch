@@ -222,7 +222,7 @@ def make_results():
     ax_b.set_title("per-seed evaluator output (metric = -|POINTS|)")
     for bar, m in zip(bars, metrics):
         ax_b.text(bar.get_x() + bar.get_width() / 2, -m + 0.5,
-                  f"-|P|={m}", ha="center", fontsize=10)
+                  f"{-m} points", ha="center", fontsize=10)
     ax_b.legend(loc="lower right")
     ax_b.text(-0.10, 1.05, "(b)", transform=ax_b.transAxes, fontsize=14,
               fontweight="bold")
@@ -337,6 +337,10 @@ def make_behavior_gif():
                      fontsize=13)
         ax.text(-0.10, 1.05, "orbit 01 · behavior", transform=ax.transAxes,
                 fontsize=11, fontweight="bold")
+        # annotate the final metric once the 20-point config is reached
+        # (also on the poster frame so the tweet-preview shows the result)
+        ax.text(0.98, 1.05, "final METRIC = -20", transform=ax.transAxes,
+                fontsize=11, fontweight="bold", ha="right", color="#55A868")
         return []
 
     anim = manim.FuncAnimation(fig, render_frame, frames=len(frames),
